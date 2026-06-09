@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scope & Pembagian Kerja Direktur — ZMH</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:     #1A4480;
+    --navy-dk:  #0f2a52;
+    --navy-lt:  #e8eef8;
+    --teal:     #1B9E6E;
+    --teal-dk:  #0f6e4c;
+    --teal-lt:  #e6f5ef;
+    --amber:    #b97c00;
+    --amber-lt: #fdf3dc;
+    --ink:      #1c1c1e;
+    --muted:    #5a5e6a;
+    --line:     #e0ddd8;
+    --bg:       #f7f6f2;
+    --white:    #fefefe;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .no-print { display: none; }
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 2rem 1rem;
+  }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    background: var(--navy-dk);
+    padding: 2rem 2.5rem 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .doc-header-left h1 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.3rem;
+    line-height: 1.3;
+  }
+
+  .doc-header-left p {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  .doc-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .doc-header-right .badge {
+    background: rgba(27,158,110,0.2);
+    border: 1px solid rgba(27,158,110,0.4);
+    color: #6ddbb4;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .doc-header-right .date {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── KOMISARIS STRIP ── */
+  .komisaris-strip {
+    background: #1c3260;
+    padding: 0.9rem 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .komisaris-strip .label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    white-space: nowrap;
+  }
+
+  .komisaris-strip .value {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .komisaris-strip .arrow {
+    color: rgba(255,255,255,0.25);
+    font-size: 0.8rem;
+    margin: 0 0.5rem;
+  }
+
+  .komisaris-strip .note {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.35);
+  }
+
+  /* ── COLUMNS ── */
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .col {
+    padding: 0;
+  }
+
+  .col:first-child {
+    border-right: 1px solid var(--line);
+  }
+
+  /* ── COL HEADER ── */
+  .col-header {
+    padding: 1.25rem 1.75rem 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .col-header-pt { background: #eef1f8; }
+  .col-header-rs { background: #eaf5f0; }
+
+  .col-role {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .col-role-pt { color: var(--navy); }
+  .col-role-rs { color: var(--teal-dk); }
+
+  .col-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+
+  .col-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  /* ── SECTIONS ── */
+  .section-block {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-block:last-child {
+    border-bottom: none;
+  }
+
+  .section-label {
+    padding: 0.6rem 1.75rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--bg);
+    color: var(--muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .item-list {
+    padding: 0.9rem 1.75rem 1rem;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .item-list li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .dot-pt { background: var(--navy); }
+  .dot-rs { background: var(--teal); }
+
+  .item-list li span {
+    font-size: 0.84rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  /* ── COORD SECTION ── */
+  .coord-section {
+    padding: 1.5rem 2.5rem 1.75rem;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+  }
+
+  .coord-title {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .coord-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.9rem;
+  }
+
+  .coord-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+
+  .coord-tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-bottom: 0.6rem;
+  }
+
+  .tag-joint {
+    background: var(--amber-lt);
+    color: var(--amber);
+    border: 1px solid #e8d090;
+  }
+
+  .tag-recom {
+    background: var(--navy-lt);
+    color: var(--navy);
+    border: 1px solid #c0ccde;
+  }
+
+  .tag-threshold {
+    background: var(--teal-lt);
+    color: var(--teal-dk);
+    border: 1px solid #a8dfc8;
+  }
+
+  .coord-card h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.35;
+  }
+
+  .coord-card p {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── ACCOUNTABILITY ── */
+  .acc-section {
+    padding: 1.25rem 2.5rem 1.5rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .acc-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .acc-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .acc-icon-pt { background: var(--navy-lt); }
+  .acc-icon-rs { background: var(--teal-lt); }
+
+  .acc-icon svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .acc-icon-pt svg { stroke: var(--navy); }
+  .acc-icon-rs svg { stroke: var(--teal-dk); }
+
+  .acc-text h4 {
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .acc-text p {
+    font-size: 0.8rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .acc-text p strong {
+    font-weight: 600;
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: #f0ede8;
+    padding: 0.85rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--line);
+  }
+
+  .doc-footer p {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .doc-footer .logo-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── PRINT BUTTON ── */
+  .print-bar {
+    max-width: 960px;
+    margin: 0 auto 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .btn-print {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s;
+  }
+
+  .btn-print:hover { background: var(--navy-dk); }
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <button class="btn-print" onclick="window.print()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print / Simpan PDF
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="doc-header">
+    <div class="doc-header-left">
+      <h1>Scope & Pembagian Kerja Direktur</h1>
+      <p>PT Zahra Medika Utama &nbsp;·&nbsp; RS Zahra Medika Hospital &nbsp;·&nbsp; Teluk Kuantan, Riau</p>
+    </div>
+    <div class="doc-header-right">
+      <span class="badge">Dokumen Internal</span>
+      <span class="date">2025 · Versi 1.0</span>
+    </div>
+  </div>
+
+  <!-- KOMISARIS STRIP -->
+  <div class="komisaris-strip">
+    <span class="label">Akuntabilitas kepada</span>
+    <span class="value">Komisaris &nbsp;—&nbsp; PT Zahra Medika Utama</span>
+    <span class="arrow">↓</span>
+    <span class="note">Direktur PT &amp; Direktur RS masing-masing melapor langsung ke Komisaris · kedua posisi setara, domain berbeda</span>
+  </div>
+
+  <!-- MAIN COLUMNS -->
+  <div class="columns">
+
+    <!-- ── DIREKTUR PT ── -->
+    <div class="col">
+      <div class="col-header col-header-pt">
+        <div class="col-role col-role-pt">Direktur PT · PT Zahra Medika Utama</div>
+        <div class="col-title">Domain: Korporat & Bisnis</div>
+        <div class="col-sub">Bertanggung jawab atas keberlanjutan entitas hukum, investasi, dan arah strategis PT</div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Keuangan & Korporat</div>
+        <ul class="item-list">
+          <li><span class="dot dot-pt"></span><span>Persetujuan RKAT &amp; laporan keuangan konsolidasi PT</span></li>
+          <li><span class="dot dot-pt"></span><span>Keputusan investasi, capex besar, dan pembiayaan jangka panjang</span></li>
+          <li><span class="dot dot-pt"></span><span>Hubungan dengan perbankan, investor, dan regulator korporat</span></li>
+          <li><span class="dot dot-pt"></span><span>Pengelolaan aset tetap milik PT (bangunan, tanah, peralatan besar)</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Legal & Kerjasama</div>
+        <ul class="item-list">
+          <li><span class="dot dot-pt"></span><span>Penandatanganan &amp; keputusan akhir semua MOU / perjanjian pihak ketiga</span></li>
+          <li><span class="dot dot-pt"></span><span>Kepatuhan hukum entitas PT (akta, izin usaha, BPJS ketenagakerjaan)</span></li>
+          <li><span class="dot dot-pt"></span><span>Urusan notaris, kuasa hukum, dan penanganan sengketa korporat</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">SDM Level Senior</div>
+        <ul class="item-list">
+          <li><span class="dot dot-pt"></span><span>Persetujuan akhir rekrutmen &amp; PHK staf senior (kepala unit ke atas)</span></li>
+          <li><span class="dot dot-pt"></span><span>Penetapan struktur remunerasi &amp; benefit organisasi</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Pengadaan Skala Besar</div>
+        <ul class="item-list">
+          <li><span class="dot dot-pt"></span><span>Persetujuan pengadaan aset / capex di atas threshold yang ditetapkan</span></li>
+          <li><span class="dot dot-pt"></span><span>Tender alat medis besar, renovasi gedung, kendaraan operasional</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── DIREKTUR RS ── -->
+    <div class="col">
+      <div class="col-header col-header-rs">
+        <div class="col-role col-role-rs">Direktur RS · RS Zahra Medika Hospital</div>
+        <div class="col-title">Domain: Operasional & Layanan RS</div>
+        <div class="col-sub">Bertanggung jawab atas mutu pelayanan, kepatuhan klinis, dan operasional harian RS</div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Operasional Harian</div>
+        <ul class="item-list">
+          <li><span class="dot dot-rs"></span><span>Seluruh kegiatan pelayanan medis &amp; penunjang (IGD, rawat inap, lab, farmasi, dll)</span></li>
+          <li><span class="dot dot-rs"></span><span>Manajemen jadwal dokter, perawat, dan staf klinis</span></li>
+          <li><span class="dot dot-rs"></span><span>Penjaminan standar mutu &amp; keselamatan pasien (akreditasi, SPO)</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Keuangan Operasional RS</div>
+        <ul class="item-list">
+          <li><span class="dot dot-rs"></span><span>Penetapan &amp; perubahan tarif layanan RS (dalam batas yang disepakati dengan Direktur PT)</span></li>
+          <li><span class="dot dot-rs"></span><span>Pengelolaan kas operasional harian RS</span></li>
+          <li><span class="dot dot-rs"></span><span>Pengadaan BHP, obat-obatan, dan kebutuhan operasional rutin (di bawah threshold)</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">SDM Operasional</div>
+        <ul class="item-list">
+          <li><span class="dot dot-rs"></span><span>Rekrutmen staf non-senior (perawat, admin, teknisi) secara mandiri</span></li>
+          <li><span class="dot dot-rs"></span><span>Pembinaan, evaluasi kinerja, &amp; disiplin seluruh staf RS</span></li>
+          <li><span class="dot dot-rs"></span><span>Menyampaikan rekomendasi rekrutmen / PHK staf senior kepada Direktur PT</span></li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Regulasi RS</div>
+        <ul class="item-list">
+          <li><span class="dot dot-rs"></span><span>Hubungan dengan Dinkes, BPJS Kesehatan, &amp; regulator layanan kesehatan</span></li>
+          <li><span class="dot dot-rs"></span><span>Pemeliharaan izin operasional RS, SIP / STR tenaga medis</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /columns -->
+
+  <!-- KOORDINASI -->
+  <div class="coord-section">
+    <div class="coord-title">Titik koordinasi &amp; mekanisme keputusan bersama</div>
+    <div class="coord-grid">
+
+      <div class="coord-card">
+        <span class="coord-tag tag-joint">Joint Decision</span>
+        <h4>MOU / Kerjasama Pihak Ketiga</h4>
+        <p>Direktur RS memberi <em>technical clearance</em> tertulis → Direktur PT memutuskan &amp; menandatangani</p>
+      </div>
+
+      <div class="coord-card">
+        <span class="coord-tag tag-recom">Rekomendasi → Persetujuan</span>
+        <h4>Rekrutmen &amp; PHK Staf Senior</h4>
+        <p>Direktur RS mengajukan rekomendasi tertulis → Direktur PT memberi persetujuan akhir</p>
+      </div>
+
+      <div class="coord-card">
+        <span class="coord-tag tag-joint">Joint Decision</span>
+        <h4>Perubahan Tarif Layanan</h4>
+        <p>Direktur RS mengusulkan → Direktur PT menetapkan batas atas &amp; menyetujui perubahan signifikan</p>
+      </div>
+
+      <div class="coord-card">
+        <span class="coord-tag tag-threshold">Threshold Berlaku</span>
+        <h4>Pengadaan Barang &amp; Aset</h4>
+        <p>Di bawah threshold: Direktur RS mandiri. Di atas threshold (capex): wajib persetujuan Direktur PT</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AKUNTABILITAS -->
+  <div class="acc-section">
+    <div class="acc-box">
+      <div class="acc-icon acc-icon-pt">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="acc-text">
+        <h4>Direktur PT melapor ke</h4>
+        <p><strong>Komisaris PT ZMU</strong> — atas kinerja keuangan, legal, dan arah strategis PT</p>
+      </div>
+    </div>
+    <div class="acc-box">
+      <div class="acc-icon acc-icon-rs">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="acc-text">
+        <h4>Direktur RS melapor ke</h4>
+        <p><strong>Komisaris PT ZMU</strong> <span style="color:#999;font-size:0.75rem">(via Direktur PT)</span> — atas kinerja operasional, mutu layanan &amp; kepatuhan RS</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    <p>PT Zahra Medika Utama &nbsp;·&nbsp; RS Zahra Medika Hospital &nbsp;·&nbsp; Teluk Kuantan, Riau</p>
+    <span class="logo-text">ZMH</span>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>
